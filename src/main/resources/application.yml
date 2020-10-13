@@ -1,0 +1,7 @@
+server:
+  servlet:
+    context-path: /share
+
+spring:
+  profiles:
+    active: dev
