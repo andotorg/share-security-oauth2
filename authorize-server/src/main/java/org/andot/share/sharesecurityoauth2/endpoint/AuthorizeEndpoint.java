@@ -1,7 +1,9 @@
 package org.andot.share.sharesecurityoauth2.endpoint;
 
+import org.andot.share.sharesecurityoauth2.domain.AppInfo;
 import org.andot.share.sharesecurityoauth2.exception.NotFoundCodeException;
 import org.andot.share.sharesecurityoauth2.exception.NotFoundSharpException;
+import org.andot.share.sharesecurityoauth2.service.AppInfoService;
 import org.andot.share.sharesecurityoauth2.type.UriType;
 import org.andot.share.sharesecurityoauth2.util.CodeUtil;
 import org.andot.share.sharesecurityoauth2.util.StringUtil;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,6 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/connect/oauth2/authorize")
 public class AuthorizeEndpoint {
+
+    @Resource
+    private AppInfoService appInfoService;
 
     /**
      * #share_redirect
@@ -63,8 +69,15 @@ public class AuthorizeEndpoint {
             throw new NotFoundCodeException("redirect_uri 值不能为空！ ");
         }
 
-        String authorizationCode = CodeUtil.get(appid, scope);
+        // TODO 查询数据库是否存在该appid、response_type、scope
+        AppInfo appInfo = appInfoService.getAppInfoByAppIdAndType(appid, response_type);
 
+
+
+        // 查询到存在，则使用appid和scope计算为code
+        String authorizationCode = CodeUtil.get(appid, scope);
+        // code存放到缓存，用于下次应用服务器带着code来使用
+        // 跳转到第三方app页面
         response.sendRedirect(redirect_uri +
                 String.format(UriType.REDIRECT_URI_PARAM, authorizationCode, state));
     }
