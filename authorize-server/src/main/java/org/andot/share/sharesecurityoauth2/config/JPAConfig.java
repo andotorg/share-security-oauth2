@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-@EnableJpaRepositories("org.andot.share.sharesecurityoauth2")
+@EnableJpaRepositories("org.andot.share.sharesecurityoauth2.repository")
 @EnableTransactionManagement
 @Configuration
 public class JPAConfig {

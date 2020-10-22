@@ -7,9 +7,9 @@ import java.util.Date;
 
 @Data
 public class BaseEntity implements Serializable {
-    private Long createdBy;
+    private String createdBy;
     private Date createdTime;
-    private Long updatedBy;
+    private String updatedBy;
     private Date updatedTime;
     private Integer delFlag;
 }

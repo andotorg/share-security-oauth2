@@ -4,6 +4,9 @@ import org.andot.share.sharesecurityoauth2.domain.AppInfo;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
+/**
+ * @author Lucas
+ */
 public interface AppInfoRepository extends Repository<AppInfo, Long> {
     /**
      *
